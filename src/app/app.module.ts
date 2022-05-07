@@ -3,9 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CartComponent } from './components/cart/cart.component';
+import { CartComponent } from './customer/components/cart/cart.component';
 import { HeaderComponent } from './components/header/header.component';
-import { ProductComponent } from './components/product/product.component';
+import { ProductComponent } from './customer/components/product/product.component';
+import { CustomerModule } from './customer/customer.module';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +18,8 @@ import { ProductComponent } from './components/product/product.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CustomerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

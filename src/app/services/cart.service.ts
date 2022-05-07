@@ -9,18 +9,24 @@ export class CartService {
   public cartItemList : any=[]
   public productList = new BehaviorSubject<any> ([]);
   
-  constructor() { }
+  constructor() {
+    this.cartItemList = JSON.parse(localStorage.getItem('items') ||'[]');
+  }
+
   getProducts(){
+    this.productList.next(this.cartItemList);
     return this.productList.asObservable();
   }
 
   setProduct(product : any){
     this.cartItemList.push(...product);
+    this.syncItems();
     this.productList.next(product);
   }
 
   addToCart(product : any){
-
+    this.cartItemList = JSON.parse(localStorage.getItem('items') ||'[]');
+  
     let found= false;
 
     if(this.cartItemList.length != 0){
@@ -40,7 +46,8 @@ export class CartService {
     }
   
     this.productList.next(this.cartItemList);
-    this.getTotalPrice();  
+    this.syncItems();
+    this.getTotalPrice();
   }
 
   getTotalPrice() : number{
@@ -55,6 +62,7 @@ export class CartService {
     this.cartItemList.map((cartItem:any, index:any)=>{
       if(product.name === cartItem.name){
         this.cartItemList.splice(index,1);
+        this.syncItems();
       }
     })
     this.productList.next(this.cartItemList);
@@ -63,5 +71,10 @@ export class CartService {
   removeAllCartItem(){
     this.cartItemList= [];
     this.productList.next(this.cartItemList);
+    this.syncItems();
+  }
+
+  syncItems(){
+    localStorage.setItem('items',JSON.stringify(this.cartItemList)); // sync the data
   }
 }

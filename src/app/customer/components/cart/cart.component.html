@@ -26,7 +26,7 @@
 
                         <tr>
                             <td colspan="2"></td>
-                            <td><button routerLink="/products" class="btn btn-primary">Shop More</button></td>
+                            <td><button routerLink="/customer/products" class="btn btn-primary">Shop More</button></td>
                             <td><button (click)="removeAllItem()" class="btn btn-danger">Empty Cart</button></td>
                             <td><strong>Grand Total : ${{ grandTotal | number : '1.2-2'}}</strong></td>
                             <td></td>
@@ -48,7 +48,7 @@
                 <div class="center">
                     <h4>Your Cart is empty!</h4>
                     <h6>Add item to it now</h6>
-                    <button routerLink="/products" class="btn btn-primary">Shop Now</button>
+                    <button routerLink="/customer/products" class="btn btn-primary">Shop Now</button>
                 </div>
             </div>
         </div>
