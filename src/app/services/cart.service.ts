@@ -6,75 +6,75 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CartService {
 
-  public cartItemList : any=[]
-  public productList = new BehaviorSubject<any> ([]);
-  
+  public cartItemList: cartItem[];
+  public productList = new BehaviorSubject<cartItem[]>([]);
+
   constructor() {
-    this.cartItemList = JSON.parse(localStorage.getItem('items') ||'[]');
+    this.cartItemList = JSON.parse(localStorage.getItem('items') || '[]');
   }
 
-  getProducts(){
+  getProducts() {
     this.productList.next(this.cartItemList);
     return this.productList.asObservable();
   }
 
-  setProduct(product : any){
+  setProduct(product: cartItem[]) {
     this.cartItemList.push(...product);
     this.syncItems();
     this.productList.next(product);
   }
 
-  addToCart(product : any){
-    this.cartItemList = JSON.parse(localStorage.getItem('items') ||'[]');
-  
-    let found= false;
+  addToCart(product: cartItem) {
+    this.cartItemList = JSON.parse(localStorage.getItem('items') || '[]');
 
-    if(this.cartItemList.length != 0){
-      for (let i in this.cartItemList){
-        if(this.cartItemList[i].name === product.name){
+    let found : boolean = false;
+
+    if (this.cartItemList.length != 0) {
+      for (let i in this.cartItemList) {
+        if (this.cartItemList[i].name === product.name) {
           this.cartItemList[i].quantity++;
           found = true;
         }
       }
 
-      if(!found){
+      if (!found) {
         this.cartItemList.push(product);
       }
 
-    } else{
+    } else {
       this.cartItemList.push(product);
     }
-  
+
     this.productList.next(this.cartItemList);
     this.syncItems();
     this.getTotalPrice();
   }
 
-  getTotalPrice() : number{
+  getTotalPrice(): number {
     let grandTotal = 0;
-    this.cartItemList.map((a : any)=>{
+    this.cartItemList.map((a: cartItem) => {
       grandTotal += a.total
     })
     return grandTotal;
   }
 
-  removeCartItem(product : any){
-    this.cartItemList.map((cartItem:any, index:any)=>{
-      if(product.name === cartItem.name){
-        this.cartItemList.splice(index,1);
+  removeCartItem(product: cartItem) {
+    this.cartItemList.map((cartItem: cartItem, index: number) => {
+      if (product.name === cartItem.name) {
+        this.cartItemList.splice(index, 1);
         this.syncItems();
       }
     })
     this.productList.next(this.cartItemList);
   }
 
-  removeAllCartItem(){
-    this.cartItemList= [];
+  removeAllCartItem() {
+    this.cartItemList = [];
     this.productList.next(this.cartItemList);
     this.syncItems();
   }
 
-  syncItems(){
-    localStorage.setItem('items',JSON.stringify(this.cartItemList)); // sync the data
+  syncItems() {
+    localStorage.setItem('items', JSON.stringify(this.cartItemList)); // sync the data
   }
 }

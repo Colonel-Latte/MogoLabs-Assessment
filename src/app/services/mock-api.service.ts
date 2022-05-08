@@ -6,33 +6,34 @@ import { of } from 'rxjs';
 })
 export class MockApiService {
 
-  constructor() { }
+  private products: product[];
 
-  getProduct(){
-
-    const products = [
+  constructor() {
+    this.products = [
       {
         name: 'Sledgehammer',
         price: 125.75
-      }, 
+      },
       {
         name: 'Axe',
         price: 190.50
-      }, 
+      },
       {
         name: 'Bandsaw',
         price: 562.13
-      }, 
+      },
       {
         name: 'Chisel',
         price: 12.9
-      }, 
+      },
       {
         name: 'Hacksaw',
         price: 18.45
-      }, 
+      },
     ]
+  }
 
-    return of(products);; 
+  getProduct() {
+    return of(this.products);;
   }
 }
