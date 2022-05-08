@@ -28,7 +28,7 @@
                             <td colspan="2"></td>
                             <td><button routerLink="/customer/products" class="btn btn-primary">Shop More</button></td>
                             <td><button (click)="removeAllItem()" class="btn btn-danger">Empty Cart</button></td>
-                            <td><strong>Grand Total : ${{ grandTotal | number : '1.2-2'}}</strong></td>
+                            <td><strong>Grand Total : {{ grandTotal | currency : 'NZD' : true : '1.2-2'}}</strong></td>
                             <td></td>
                         </tr>
 

@@ -17,13 +17,13 @@ export class ProductComponent implements OnInit {
     this.api.getProduct().subscribe(res=>{
       this.productList = res;
 
-      this.productList.forEach((product:any) => {
+      this.productList.forEach((product:cartItem) => {
         Object.assign(product,{quantity:1, total:product.price})
       });
     });
   }
 
-  addToCart(item : any){
+  addToCart(item : cartItem){
     this.cartService.addToCart(item);
   }
 

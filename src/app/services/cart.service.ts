@@ -10,38 +10,54 @@ export class CartService {
   public productList = new BehaviorSubject<cartItem[]>([]);
 
   constructor() {
+    // Get data in local storage
     this.cartItemList = JSON.parse(localStorage.getItem('items') || '[]');
   }
 
+  // Get Products as Observable
   getProducts() {
     this.productList.next(this.cartItemList);
     return this.productList.asObservable();
   }
 
+  // Set Product
   setProduct(product: cartItem[]) {
     this.cartItemList.push(...product);
     this.syncItems();
     this.productList.next(product);
   }
 
+  // Add to Cart
   addToCart(product: cartItem) {
+
+    // Get data in local storage
     this.cartItemList = JSON.parse(localStorage.getItem('items') || '[]');
 
+    // Declare found boolean
     let found : boolean = false;
 
+    // Check if cartItemList have data
     if (this.cartItemList.length != 0) {
+
+      // Loop cart item list
       for (let i in this.cartItemList) {
+        // Check if product is in cart item
         if (this.cartItemList[i].name === product.name) {
+          // Update quantity and total
           this.cartItemList[i].quantity++;
+          this.cartItemList[i].total = this.cartItemList[i].price * this.cartItemList[i].quantity;
           found = true;
         }
       }
 
+      //if product is not found then push product
       if (!found) {
         this.cartItemList.push(product);
       }
 
-    } else {
+    } 
+    //else push product
+    else {
       this.cartItemList.push(product);
     }
 
